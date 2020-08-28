@@ -41,7 +41,8 @@ namespace WorldCities
             // Add ApplicationDbContext
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                string _connectionString = Configuration["ConnectionStrings:DefaultConnection"];
+                options.UseSqlServer(_connectionString);
             });
 
             services.AddSwaggerGen(options =>
