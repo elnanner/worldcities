@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef  } from '@angular/core';
 import { City } from './city';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
@@ -21,6 +21,7 @@ export class CitiesComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private cdr: ChangeDetectorRef,
     @Inject('BASE_URL') private baseUrl: string) { }
 
   ngOnInit() {
@@ -28,21 +29,22 @@ export class CitiesComponent implements OnInit {
     pageEvent.pageIndex = 0;
     pageEvent.pageSize = 10;
     this.getData(pageEvent);
-
   }
 
   getData(event: PageEvent) {
-    const url = this.baseUrl + 'api/cities';
-    const params = new HttpParams()
+    const url = this.baseUrl + 'api/Cities';
+    let params = new HttpParams()
       .set('pageIndex', event.pageIndex.toString())
       .set('pageSize', event.pageSize.toString());
 
     this.http.get<ApiResult>(url, { params })
       .subscribe(result => {
+        this.cities = new MatTableDataSource<City>(result.data);
+        this.cdr.detectChanges();
         this.paginator.length = result.totalCount;
         this.paginator.pageIndex = result.pageIndex;
         this.paginator.pageSize = result.pageSize;
-        this.cities = new MatTableDataSource<City>(result.data);
+
       }, error => console.log(error));
   }
 }

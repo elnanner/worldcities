@@ -23,7 +23,6 @@ namespace WorldCities.Controllers
 
         // GET: api/Cities
         [HttpGet]
-        [Route("{pageIndex?}/{pageSize?}")]
         public async Task<ActionResult<ApiResult<City>>> GetCities(int pageIndex = 0, int pageSize = 10)
         {
             return await ApiResult<City>.CreateAsync(_context.Cities, pageIndex, pageSize);
