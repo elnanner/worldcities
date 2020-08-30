@@ -20,31 +20,36 @@
         </tr>
     </tbody>
 </table>-->
-
 <!--se cambia a material-->
-<table mat-table [dataSource]="cities" class="mat-elevation-z8" [hidden]="!cities">
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>ID</th>
-        <th mat-cell *matCellDef="let city">{{city.id}}</th>
-    </ng-container>
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <th mat-cell *matCellDef="let city">{{city.name}}</th>
-    </ng-container>
-    <!-- Lat Column -->
-    <ng-container matColumnDef="lat">
-        <th mat-header-cell *matHeaderCellDef>Lat</th>
-        <th mat-cell *matCellDef="let city">{{city.lat}}</th>
-    </ng-container>
-    <!-- Lon Column -->
-    <ng-container matColumnDef="lon">
-        <th mat-header-cell *matHeaderCellDef>Lon</th>
-        <th mat-cell *matCellDef="let city">{{city.lon}}</th>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+<table mat-table
+       [dataSource]="cities"
+       class="mat-elevation-z8"
+       [hidden]="!cities"
+       matSort (matSortChange)="loadData()"
+       matSortActive="{{defaultSortColumn}}"
+       matSortDirection="{{defaultSortOrder}}">
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+    <th mat-cell *matCellDef="let city">{{city.id}}</th>
+  </ng-container>
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+    <th mat-cell *matCellDef="let city">{{city.name}}</th>
+  </ng-container>
+  <!-- Lat Column -->
+  <ng-container matColumnDef="lat">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Lat</th>
+    <th mat-cell *matCellDef="let city">{{city.lat}}</th>
+  </ng-container>
+  <!-- Lon Column -->
+  <ng-container matColumnDef="lon">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Lon</th>
+    <th mat-cell *matCellDef="let city">{{city.lon}}</th>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
 <!-- Pagination directive -->

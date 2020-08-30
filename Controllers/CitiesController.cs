@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WorldCities.Data;
 using WorldCities.Data.Models;
 
@@ -23,9 +20,9 @@ namespace WorldCities.Controllers
 
         // GET: api/Cities
         [HttpGet]
-        public async Task<ActionResult<ApiResult<City>>> GetCities(int pageIndex = 0, int pageSize = 10)
+        public async Task<ActionResult<ApiResult<City>>> GetCities(int pageIndex = 0, int pageSize = 10, string sortColumn = null, string sortOrder = null)
         {
-            return await ApiResult<City>.CreateAsync(_context.Cities, pageIndex, pageSize);
+            return await ApiResult<City>.CreateAsync(_context.Cities, pageIndex, pageSize, sortColumn, sortOrder);
         }
 
         // GET: api/Cities/5
