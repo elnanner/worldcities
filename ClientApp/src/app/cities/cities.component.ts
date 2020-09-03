@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { City } from './city';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
@@ -23,6 +23,9 @@ export class CitiesComponent implements OnInit {
   public defaultSortColumn: string = 'name';
   public defaultSortOrder: string = 'asc';
 
+  defaultFilterColumn: string = 'name';
+  filterQuery: string = null;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -32,13 +35,16 @@ export class CitiesComponent implements OnInit {
     @Inject('BASE_URL') private baseUrl: string) { }
 
   ngOnInit() {
-    this.loadData();
+    this.loadData(null);
   }
 
-  loadData() {
+  loadData(query: string = null) {
     var pageEvent = new PageEvent();
     pageEvent.pageIndex = this.defaultPageIndex;
     pageEvent.pageSize = this.defaultPageSize;
+    if (query) {
+      this.filterQuery = query;
+    }
     this.getData(pageEvent);
   }
 
@@ -50,6 +56,11 @@ export class CitiesComponent implements OnInit {
       .set('sortColumn', (this.sort) ? this.sort.active : this.defaultSortColumn)
       .set('sortOrder', (this.sort) ? this.sort.direction : this.defaultSortOrder);
 
+    if (this.filterQuery) {
+      params = params
+        .set('filterColumn', this.defaultFilterColumn)
+        .set('filterQuery', this.filterQuery);
+    }
 
     this.http.get<ApiResult>(url, { params })
       .subscribe(result => {

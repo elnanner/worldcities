@@ -20,6 +20,12 @@
         </tr>
     </tbody>
 </table>-->
+<!-- Filters -->
+<mat-form-field [hidden]="!cities">
+  <input matInput (keyup)="loadData($event.target.value)"
+         placeholder="Filter by name (or part of it)...">
+</mat-form-field>
+
 <!--se cambia a material-->
 <table mat-table
        [dataSource]="cities"
